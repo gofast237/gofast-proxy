@@ -4,30 +4,22 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const app = express();
 
-// Activez CORS (important pour votre frontend React/React Native)
 app.use(cors({ origin: true }));
 
-// Proxy toutes les requêtes entrantes vers Firebase Realtime Database
-app.use('/', createProxyMiddleware({
-  target: 'https://gofast-835a5-default-rtdb.firebaseio.com/',
+const firebaseProxy = createProxyMiddleware({
+  target: 'https://gofast-835a5-default-rtdb.firebaseio.com',
   changeOrigin: true,
-  ws: true,
-  pathRewrite: {
-    '^/': '/', // Vous pouvez aussi gérer des réécritures ici au besoin
-  },
-}));
+  ws: true
+});
+
+app.use('/', firebaseProxy);
 
 const PORT = process.env.PORT || 4000;
 
-app.listen(PORT, () => {
+// ⚠️ Important : stockez "app.listen" dans une variable "server"
+const server = app.listen(PORT, () => {
   console.log(`🚀 Proxy Firebase fonctionnel sur le port ${PORT}`);
 });
-server.on('upgrade', (req, socket, head) => {
-  console.log("Upgrade WebSocket");
-  const proxy = createProxyMiddleware({
-      target: 'https://gofast-835a5-default-rtdb.firebaseio.com/',
-      changeOrigin: true,
-      ws: true
-  });
-  proxy.upgrade(req, socket, head);
-});
+
+// ✅ Gérez explicitement l'événement websocket upgrade
+server.on('upgrade', firebaseProxy.upgrade);
