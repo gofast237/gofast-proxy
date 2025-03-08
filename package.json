@@ -1,10 +1,10 @@
 {
-  "name": "proxy-firebase",
+  "name": "proxy",
   "version": "1.0.0",
-  "description": "Proxy Firebase avec Node.js",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+   "start": "node index.js"
   },
   "keywords": [],
   "author": "",
@@ -12,6 +12,6 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.21.2",
-    "http-proxy-middleware": "^2.0.6"
+    "http-proxy-middleware": "^3.0.3"
   }
 }
