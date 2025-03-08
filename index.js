@@ -11,6 +11,7 @@ app.use(cors({ origin: true }));
 app.use('/', createProxyMiddleware({
   target: 'https://gofast-835a5-default-rtdb.firebaseio.com/',
   changeOrigin: true,
+  ws: true,
   pathRewrite: {
     '^/': '/', // Vous pouvez aussi gérer des réécritures ici au besoin
   },
@@ -20,4 +21,13 @@ const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
   console.log(`🚀 Proxy Firebase fonctionnel sur le port ${PORT}`);
+});
+server.on('upgrade', (req, socket, head) => {
+  console.log("Upgrade WebSocket");
+  const proxy = createProxyMiddleware({
+      target: 'https://gofast-835a5-default-rtdb.firebaseio.com/',
+      changeOrigin: true,
+      ws: true
+  });
+  proxy.upgrade(req, socket, head);
 });
