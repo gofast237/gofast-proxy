@@ -1,0 +1,25 @@
+# Dépendances Node.js
+/node_modules
+
+# Fichier logs
+logs
+*.log
+npm-debug.log*
+
+# Variables d'environnement
+.env
+
+# Fichiers de construction (build)
+dist
+build
+
+# Fichiers temporaires
+tmp
+temp
+
+# Système d'exploitation spécifique
+.DS_Store
+Thumbs.db
+
+# VSCode IDE (si vous utilisez VSCode)
+.vscode
